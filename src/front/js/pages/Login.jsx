@@ -1,14 +1,31 @@
-import React, { useState, useActions } from 'react';
+import React, { useState } from 'react';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { login } = useActions();
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
-        login(email, password);
-        // You can add additional logic here, such as redirecting the user after login
+        
+        try {
+            const response = await fetch(`${process.env.BACKEND_URL}/api/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data.message);
+                onLogin();
+            } else {
+                throw new Error('Login failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     return (

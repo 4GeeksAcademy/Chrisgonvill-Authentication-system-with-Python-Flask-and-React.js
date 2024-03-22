@@ -1,14 +1,30 @@
-import React, { useState, useActions } from 'react';
+import React, { useState } from 'react';
 
 const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { signup } = useActions();
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
-        signup(email, password);
-        // You can add additional logic here, such as redirecting the user after signup
+        
+        try {
+            const response = await fetch(`${process.env.BACKEND_URL}/api/signup`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data.message);
+            } else {
+                throw new Error('Signup failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     return (

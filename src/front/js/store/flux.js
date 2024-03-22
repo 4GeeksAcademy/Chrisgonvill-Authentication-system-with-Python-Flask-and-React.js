@@ -57,7 +57,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                         body: JSON.stringify({ email, password })
                     });
                     if (response.ok) {
-                        // Perform actions after successful login, such as redirecting the user
                     } else {
                         throw new Error("Login failed");
                     }
@@ -75,7 +74,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                         body: JSON.stringify({ email, password })
                     });
                     if (response.ok) {
-                        // Perform actions after successful signup, such as redirecting the user
                     } else {
                         throw new Error("Signup failed");
                     }

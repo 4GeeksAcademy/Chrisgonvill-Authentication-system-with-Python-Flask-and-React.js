@@ -20,7 +20,6 @@ def handle_signup():
     request_data = request.get_json()
     email = request_data.get('email')
     password = request_data.get('password')
-    # You should add validation and error handling here
     new_user = User(email=email, password=password, is_active=True)
     db.session.add(new_user)
     db.session.commit()
@@ -33,7 +32,6 @@ def handle_login():
     password = request_data.get('password')
     user = User.query.filter_by(email=email, password=password).first()
     if user:
-        # You may want to implement session management or JWT token creation here
         return jsonify({"message": "Login successful"}), 200
     else:
         return jsonify({"message": "Invalid credentials"}), 401
